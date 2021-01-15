@@ -20,7 +20,7 @@ public abstract class Formule {
     public abstract List<Formule> CNF();
 
     public abstract List<Formule> ouSuppr();
-    public abstract boolean isOpposite();
+    public abstract boolean isOpposite(Formule compared);
 
     /******************************* NON ******************************************/
 
@@ -62,7 +62,6 @@ public abstract class Formule {
                         //  + A l'étape suivante :
                         //  si f1.nonDev(i+1) --> si le 2 est atteint ---> f1.nonDev(0)
                         //  Sinon on fait new Non(f1.nonDev(0))
-
         }
 
         @Override
@@ -76,7 +75,7 @@ public abstract class Formule {
         }
 
         @Override
-        public boolean isOpposite() {
+        public boolean isOpposite(Formule compared) {
             return false;
         }
     }
@@ -162,7 +161,7 @@ public abstract class Formule {
         }
 
         @Override
-        public boolean isOpposite() {
+        public boolean isOpposite(Formule compared) {
             return false;
         }
     }
@@ -231,7 +230,7 @@ public abstract class Formule {
         }
 
         @Override
-        public boolean isOpposite() {
+        public boolean isOpposite(Formule compared) {
             return false;
         }
 
@@ -304,7 +303,7 @@ public abstract class Formule {
         }
 
         @Override
-        public boolean isOpposite() {
+        public boolean isOpposite(Formule compared) {
             return false;
         }
 
@@ -364,7 +363,7 @@ public abstract class Formule {
         }
 
         @Override
-        public boolean isOpposite() {
+        public boolean isOpposite(Formule compared) {
             return false;
         }
 
@@ -418,7 +417,7 @@ public abstract class Formule {
         }
 
         @Override
-        public boolean isOpposite() {
+        public boolean isOpposite(Formule compared){
             return false;
         }
     }
@@ -500,7 +499,7 @@ public abstract class Formule {
         }
 
         @Override
-        public boolean isOpposite() {
+        public boolean isOpposite(Formule compared) {
             return false;
         }
     }

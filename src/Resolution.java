@@ -9,9 +9,9 @@ public class Resolution {
     * Formule[] clause1 signifie que chaque formule
     * du tableau sont liés par un v
     * */
-    public Formule[] res(Formule[] clause1, Formule[] clause2){
+    public List<Formule> res(List<Formule> clause1, List<Formule> clause2){
 
-        Formule[] resolvant = new Formule[0]; //resolvant de la résolution
+        List<Formule> resolvant = new ArrayList<>(); //resolvant de la résolution
 
         // On regarde si il existe une proposition dans la première clause qui soit la négation
         // D'une proposition dans la seconde clause
