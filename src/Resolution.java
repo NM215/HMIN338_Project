@@ -55,13 +55,14 @@ public class Resolution {
                                     Substitution.substituer(sub.getSubstitution(), t1);
                                 for (Terme t2 : p2.getT())
                                     Substitution.substituer(sub.getSubstitution(), t2);
+                                // Il reste à substituer aussi sur les clauses restantes
+                                // Comme il existe une substitution on met à jour le résolvant :
                             }
                         }
                     }
                 }
             }
         }
-
         return resolvant;
     }
 
