@@ -20,12 +20,9 @@ public abstract class Formule {
     public abstract Formule impliqueSuppr();
     public abstract Formule nonDev(int i);
     public abstract List<Formule> CNF();
-
     public abstract List<Formule> ouSuppr();
-    public abstract Proposition getProposition();
     public abstract HashMap<Proposition, Boolean> getPropositionNegation(int i);
-    public abstract boolean hasNegation(int i);
-    public abstract boolean isOpposite(Formule compared);
+
 
     /******************************* NON ******************************************/
 
@@ -77,24 +74,6 @@ public abstract class Formule {
         @Override
         public List<Formule> ouSuppr() {
             return null;
-        }
-
-        //On va l'utiliser qu'une fois qu'on aura fait la mise sous forme clausale
-        //Si on a un non on sait qu'une proposition va suivre vu qu'on a développé le non avant
-        @Override
-        public boolean hasNegation(int i) {
-            return f.hasNegation(1);
-        }
-
-        @Override
-        public boolean isOpposite(Formule compared) {
-            boolean b = f.hasNegation(1); //On met à jour le hasNegation
-            return f.isOpposite(compared);
-        }
-
-        @Override
-        public Proposition getProposition() {
-            return f.getProposition();
         }
 
         @Override
@@ -184,23 +163,8 @@ public abstract class Formule {
         }
 
         @Override
-        public Proposition getProposition() {
-            return null;
-        }
-
-        @Override
         public HashMap<Proposition, Boolean> getPropositionNegation(int i) {
             return null;
-        }
-
-        @Override
-        public boolean hasNegation(int i) {
-            return false;
-        }
-
-        @Override
-        public boolean isOpposite(Formule compared) {
-            return false;
         }
     }
 
@@ -268,23 +232,8 @@ public abstract class Formule {
         }
 
         @Override
-        public Proposition getProposition() {
-            return null;
-        }
-
-        @Override
         public HashMap<Proposition, Boolean> getPropositionNegation(int i) {
             return null;
-        }
-
-        @Override
-        public boolean hasNegation(int i) {
-            return false;
-        }
-
-        @Override
-        public boolean isOpposite(Formule compared) {
-            return false;
         }
 
         public boolean Libre(){ //On vérifie s'il exite une variable libre dans la proposition contenant le terme du quantificateur
@@ -356,23 +305,8 @@ public abstract class Formule {
         }
 
         @Override
-        public Proposition getProposition() {
-            return null;
-        }
-
-        @Override
         public HashMap<Proposition, Boolean> getPropositionNegation(int i) {
             return null;
-        }
-
-        @Override
-        public boolean hasNegation(int i) {
-            return false;
-        }
-
-        @Override
-        public boolean isOpposite(Formule compared) {
-            return false;
         }
 
     }
@@ -431,25 +365,9 @@ public abstract class Formule {
         }
 
         @Override
-        public Proposition getProposition() {
-            return null;
-        }
-
-        @Override
         public HashMap<Proposition, Boolean> getPropositionNegation(int i) {
             return null;
         }
-
-        @Override
-        public boolean hasNegation(int i) {
-            return false;
-        }
-
-        @Override
-        public boolean isOpposite(Formule compared) {
-            return false;
-        }
-
     }
 
     /******************************** Implique *****************************************/
@@ -500,24 +418,10 @@ public abstract class Formule {
         }
 
         @Override
-        public Proposition getProposition() {
-            return null;
-        }
-
-        @Override
         public HashMap<Proposition, Boolean> getPropositionNegation(int i) {
             return null;
         }
 
-        @Override
-        public boolean hasNegation(int i) {
-            return false;
-        }
-
-        @Override
-        public boolean isOpposite(Formule compared){
-            return false;
-        }
     }
 
     /********************************** Proposition ***************************************/
@@ -621,11 +525,6 @@ public abstract class Formule {
         }
 
         @Override
-        public Proposition getProposition() {
-            return this;
-        }
-
-        @Override
         public HashMap<Proposition, Boolean> getPropositionNegation(int i) {
             if(i==0){ //Pas de négation précedemment
                 propositionNegation.put(this, false);
@@ -637,40 +536,6 @@ public abstract class Formule {
             return propositionNegation;
         }
 
-        @Override
-        public boolean hasNegation(int i) {
-            if (i==1){
-                this.hasNegation = true;
-            }else {
-                this.hasNegation = true;
-            }
-            return this.hasNegation;
-        }
-
-        @Override
-        public boolean isOpposite(Formule compared) {
-            if(this.hasNegation==true && compared.hasNegation(0)==true){
-                //Les deux sont des négations
-                return false;
-            }else if(this.hasNegation==false && compared.hasNegation(0)==false){
-                //Les deux ne sont pas opposés
-                return false;
-            }else if(this.hasNegation==true && compared.hasNegation(0)==false){
-                //Les deux sont opposés
-                if (this.getNom()==compared.getProposition().getNom())
-                    return true;
-                else
-                    return false;
-            }else if(this.hasNegation==false && compared.hasNegation(0)==true){
-                //Les deux sont opposés
-                if (this.getNom()==compared.getProposition().getNom())
-                    return true;
-                else
-                    return false;
-            }else {
-                return false;
-            }
-        }
     }
 
     /********************************* Méthodes de FORMULE ***************************************/
