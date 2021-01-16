@@ -10,7 +10,7 @@ public abstract class Formule {
     public static List<Proposition> propositions = new ArrayList<>();
     public Formule miseEnForme;
     //Liste de couple Proposition-Boolean pour savoir si une Proposition est précédé directement d'un Non
-    public static HashMap<Proposition, Boolean> propositionNegation = new HashMap<Proposition, Boolean>();
+    public HashMap<Proposition, Boolean> propositionNegation = new HashMap<Proposition, Boolean>();
 
     //méthodes abstraites
     @Override
@@ -577,6 +577,23 @@ public abstract class Formule {
             return nom+"("+termes+")";
         }
 
+        public boolean equals(Proposition p){
+            if(this.getNom()==p.getNom()){
+                if(this.getT().length==p.getT().length){
+                    for (int i=0; i<this.getT().length; i++){
+                        if (!this.getT()[i].equals(p.getT()[i])){
+                            return false;
+                        }
+                    }
+                }else {
+                    return false;
+                }
+            }else {
+                return false;
+            }
+            return true;
+        }
+
         @Override
         public Formule impliqueSuppr() {
             return this;
@@ -598,7 +615,9 @@ public abstract class Formule {
 
         @Override
         public List<Formule> ouSuppr() {
-            return null;
+            List<Formule> l = new ArrayList<>();
+            l.add(this);
+            return l;
         }
 
         @Override
@@ -748,6 +767,13 @@ public abstract class Formule {
         System.out.println("Les clauses CNF de " + nonDel.toString()+" : ");
         for(Formule f : CNF){
             System.out.println("Clause : " + f.toString());
+        }
+
+        System.out.println();
+        for(Formule f : CNF){
+            List<Formule> clause = f.ouSuppr();
+            for (Formule c : clause)
+                System.out.println("Négation : " + c.getPropositionNegation(0).toString());
         }
 
     }
