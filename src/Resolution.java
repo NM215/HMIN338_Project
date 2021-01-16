@@ -25,11 +25,11 @@ public class Resolution {
             for (Formule.Proposition p2 : c2.keySet()) {
 
                 if (p1.getNom()==p2.getNom()) {
-                    //Si on trouve deux Prédicats P(...) et ~P(...):
+                    // Si on trouve deux Prédicats P(...) et ~P(...):
                     if (c1.get(p1) == true && c2.get(p2) == false || c1.get(p1) == false && c2.get(p2) == true) {
-                        //Si ils sont égaux par leurs termes
+                        // Si ils sont égaux par leurs termes
                         if (p1.equals(p2)) {
-                            //Alors on les retire de leur clause respectives ...
+                            // Alors on les retire de leur clause respectives ...
                             if(c1.get(p1)){ // si p1 possède une négation
                                 clause1.remove(new Formule.Non(p1));
                             }else {
@@ -49,9 +49,12 @@ public class Resolution {
                             }
                         }else { // Sinon on cherche une substitution
                             Substitution sub = Unification.unifier(p1.getT(), p2.getT());
-                            //Si elle existe on substitue
+                            // Si elle existe on substitue
                             if(!sub.getFail() && !sub.getEmpty()){
-                                //Substitution.substituer(sub.getSubstitution(), );
+                                for (Terme t1 : p1.getT())
+                                    Substitution.substituer(sub.getSubstitution(), t1);
+                                for (Terme t2 : p2.getT())
+                                    Substitution.substituer(sub.getSubstitution(), t2);
                             }
                         }
                     }
@@ -81,11 +84,11 @@ public class Resolution {
         clause2.add(new Formule.Non(new Formule.Proposition("P", new Terme[]{new Terme.Fonction('a')})));
         clause2.add(new Formule.Non(new Formule.Proposition("P", new Terme[]{new Terme.Fonction('b')})));
 
-        HashMap<Formule.Proposition, Boolean> res = getPropNeg(clause2);
-        System.out.println("HashMap PropNeg : "+res.toString());
-
         HashMap<Formule.Proposition, Boolean> res2 = getPropNeg(clause1);
         System.out.println("HashMap PropNeg : "+res2.toString());
+
+        HashMap<Formule.Proposition, Boolean> res = getPropNeg(clause2);
+        System.out.println("HashMap PropNeg : "+res.toString());
 
         //List<Formule> resolvant = res(clause1, clause2);
 
