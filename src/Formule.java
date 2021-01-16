@@ -63,10 +63,10 @@ public abstract class Formule {
             }
             return f.nonDev(i+1);
             // On compte le nombre de non précédents :
-                // If i = 1 ----> Il y'avait un NON avant ---> le et -> ou et iversement
-                        //  + A l'étape suivante :
-                        //  si f1.nonDev(i+1) --> si le 2 est atteint ---> f1.nonDev(0)
-                        //  Sinon on fait new Non(f1.nonDev(0))
+            // If i = 1 ----> Il y'avait un NON avant ---> le et -> ou et iversement
+            //  + A l'étape suivante :
+            //  si f1.nonDev(i+1) --> si le 2 est atteint ---> f1.nonDev(0)
+            //  Sinon on fait new Non(f1.nonDev(0))
         }
 
         @Override
