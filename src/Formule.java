@@ -9,17 +9,21 @@ public abstract class Formule {
     public HashMap<Terme.Variable, Terme> condition;
     public static List<Proposition> propositions = new ArrayList<>();
     public Formule miseEnForme;
+    //Liste de couple Proposition-Boolean pour savoir si une Proposition est précédé directement d'un Non
+    public static HashMap<Proposition, Boolean> propositionNegation = new HashMap<Proposition, Boolean>();
 
     //méthodes abstraites
-    public abstract Formule skolem();
-    public abstract Formule herbrand();
     @Override
     public abstract String toString();
+    public abstract Formule skolem();
+    public abstract Formule herbrand();
     public abstract Formule impliqueSuppr();
     public abstract Formule nonDev(int i);
     public abstract List<Formule> CNF();
+
     public abstract List<Formule> ouSuppr();
     public abstract Proposition getProposition();
+    public abstract HashMap<Proposition, Boolean> getPropositionNegation(int i);
     public abstract boolean hasNegation(int i);
     public abstract boolean isOpposite(Formule compared);
 
@@ -91,6 +95,11 @@ public abstract class Formule {
         @Override
         public Proposition getProposition() {
             return f.getProposition();
+        }
+
+        @Override
+        public HashMap<Proposition, Boolean> getPropositionNegation(int i) {
+            return f.getPropositionNegation(1);
         }
     }
 
@@ -180,6 +189,11 @@ public abstract class Formule {
         }
 
         @Override
+        public HashMap<Proposition, Boolean> getPropositionNegation(int i) {
+            return null;
+        }
+
+        @Override
         public boolean hasNegation(int i) {
             return false;
         }
@@ -255,6 +269,11 @@ public abstract class Formule {
 
         @Override
         public Proposition getProposition() {
+            return null;
+        }
+
+        @Override
+        public HashMap<Proposition, Boolean> getPropositionNegation(int i) {
             return null;
         }
 
@@ -342,6 +361,11 @@ public abstract class Formule {
         }
 
         @Override
+        public HashMap<Proposition, Boolean> getPropositionNegation(int i) {
+            return null;
+        }
+
+        @Override
         public boolean hasNegation(int i) {
             return false;
         }
@@ -412,6 +436,11 @@ public abstract class Formule {
         }
 
         @Override
+        public HashMap<Proposition, Boolean> getPropositionNegation(int i) {
+            return null;
+        }
+
+        @Override
         public boolean hasNegation(int i) {
             return false;
         }
@@ -472,6 +501,11 @@ public abstract class Formule {
 
         @Override
         public Proposition getProposition() {
+            return null;
+        }
+
+        @Override
+        public HashMap<Proposition, Boolean> getPropositionNegation(int i) {
             return null;
         }
 
@@ -570,6 +604,18 @@ public abstract class Formule {
         @Override
         public Proposition getProposition() {
             return this;
+        }
+
+        @Override
+        public HashMap<Proposition, Boolean> getPropositionNegation(int i) {
+            if(i==0){ //Pas de négation précedemment
+                propositionNegation.put(this, false);
+            }else if(i==1){ //Précédé d'une négation
+                propositionNegation.put(this, true);
+            }else {
+                System.out.println("Problème avec la méthode getPropositionNegation(int i)");
+            }
+            return propositionNegation;
         }
 
         @Override
