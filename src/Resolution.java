@@ -55,6 +55,7 @@ public class Resolution {
                                 resolvant.add(f);
                             }
 
+                            System.out.println("Resolvant : "+resolvant.toString());
                             return resolvant;
 
                         }else { // Sinon on cherche une substitution
@@ -118,12 +119,14 @@ public class Resolution {
                                 resolvant.add(f);
                             }
 
+                            System.out.println("Resolvant : "+resolvant.toString());
                             return resolvant;
                         }
                     }
                 }
             }
         }
+        System.out.println("Resolvant : "+resolvant.toString());
         return resolvant;
     }
 
@@ -138,10 +141,12 @@ public class Resolution {
         List<Formule> C1 = new ArrayList<>();
 
         System.out.println("S : "+listeClauses.toString());
+        System.out.println("Sat : "+Sat.toString());
 
         while (!S.isEmpty()){
-            //List<List<Formule>> STemp = S;
-            for(List<Formule> C : S){
+            List<List<Formule>> STemp = copy(S);
+            for(List<Formule> C : STemp){
+                System.out.println();
                 System.out.println("C : "+C.toString());
                 if(S.remove(C)==true){ //On a bien enlevé C on continue
                     if(C.isEmpty()){
@@ -149,12 +154,17 @@ public class Resolution {
                     }else if(Sat.contains(C)){
                         System.out.println("On passe à la clause suivante");
                     }else{
-                        //List<List<Formule>> STemp2 = S;
-                        for(List<Formule> clause : S){
+                        List<List<Formule>> STemp2 = copy(Sat);
+                        for(List<Formule> clause : STemp2){
+                            System.out.println();
                             C1 = res(C, clause);
+                            System.out.println();
+                            //if(!C1.isEmpty())
                             S.add(C1);
+                            System.out.println("S après ajout du résolvant : "+listeClauses.toString());
                         }
                         Sat.add(C);
+                        System.out.println("Sat : "+Sat.toString());
                     }
                 }else { // On a pas réussi à enlever C
                     System.out.println("Problème avec S:=S\\{C};");
@@ -174,39 +184,27 @@ public class Resolution {
         return res;
     }
 
-    public int find(Terme[] array, Terme.Variable value) {
-        for(int i=0; i<array.length; i++)
-            if(array[i].toString() == value.toString())
-                return i;
-
-        return -1;
+    public static List<List<Formule>> copy(List<List<Formule>> S){
+        List<List<Formule>> copy = new ArrayList<>();
+        for (List<Formule> clause : S)
+            copy.add(clause);
+        return copy;
     }
 
     public static void main(String[] args) {
 
         List<Formule> clause1 = new ArrayList<>();
         clause1.add(new Formule.Proposition("P", new Terme[]{new Terme.Variable("X")}));
-        System.out.println("Clause1 : "+clause1.toString());
 
         List<Formule> clause2 = new ArrayList<>();
         clause2.add(new Formule.Non(new Formule.Proposition("P", new Terme[]{new Terme.Fonction('a')})));
         clause2.add(new Formule.Non(new Formule.Proposition("P", new Terme[]{new Terme.Fonction('b')})));
-        System.out.println("Clause2 : "+clause2.toString());
-
-        //HashMap<Formule.Proposition, Boolean> res2 = getPropNeg(clause1);
-        //System.out.println("HashMap PropNeg : "+res2.toString());
-
-        //HashMap<Formule.Proposition, Boolean> res = getPropNeg(clause2);
-        //System.out.println("HashMap PropNeg : "+res.toString());
-
-        //List<Formule> resolvant = res(clause1, clause2);
-        //System.out.println("Resolvant : "+resolvant.toString());
 
         List<List<Formule>> listeClauses = new ArrayList<>();
         listeClauses.add(clause1);
         listeClauses.add(clause2);
-        System.out.println("listeClauses : "+listeClauses.toString());
-        System.out.println("Résolution : "+procedureDeResolution(listeClauses));
+
+        System.out.println("D'après la résolution la proposition est : "+procedureDeResolution(listeClauses));
 
     }
 

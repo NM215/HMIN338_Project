@@ -11,6 +11,9 @@ public abstract class Formule {
     public Formule miseEnForme;
     //Liste de couple Proposition-Boolean pour savoir si une Proposition est précédé directement d'un Non
     public HashMap<Proposition, Boolean> propositionNegation = new HashMap<Proposition, Boolean>();
+    public static List<Formule> res = new ArrayList<>();
+    public List<Formule> ou = new ArrayList<>();
+
 
     //méthodes abstraites
     @Override
@@ -68,12 +71,14 @@ public abstract class Formule {
 
         @Override
         public List<Formule> CNF() {
-            return null;
+            f.CNF();
+            return res;
         }
 
         @Override
         public List<Formule> ouSuppr() {
-            return null;
+            ou.add(this);
+            return ou;
         }
 
         @Override
@@ -293,15 +298,24 @@ public abstract class Formule {
 
         @Override
         public List<Formule> CNF() {
-            List<Formule> res = new ArrayList<>();
-            res.add(f1);
-            res.add(f2);
+
+            if(!(f1 instanceof Et)){
+                res.add(f1);
+            }
+
+            if(!(f2 instanceof Et)){
+                res.add(f2);
+            }
+
+            f1.CNF();
+            f2.CNF();
+
             return res;
         }
 
         @Override
         public List<Formule> ouSuppr() {
-            return null;
+            return ou;
         }
 
         @Override
@@ -348,20 +362,31 @@ public abstract class Formule {
                 return new Et(f1.nonDev(1), f2.nonDev(1));
             }else if (i==2){
                 return new Ou(f1.nonDev(0), f2.nonDev(0));
-            } else return null;
+            } else return this;
         }
 
         @Override
         public List<Formule> CNF() {
-            return null;
+            f1.CNF();
+            f2.CNF();
+            return res;
         }
 
         @Override
         public List<Formule> ouSuppr() {
-            List<Formule> res = new ArrayList<>();
-            res.add(f1);
-            res.add(f2);
-            return res;
+
+            if(!(f1 instanceof Ou)){
+                ou.add(f1);
+            }
+
+            if(!(f2 instanceof Ou)){
+                ou.add(f2);
+            }
+
+            f1.CNF();
+            f2.CNF();
+
+            return ou;
         }
 
         @Override
@@ -509,19 +534,18 @@ public abstract class Formule {
                 return new Non(this);
             }else if (i==2){
                 return this;
-            }else return null;
+            }else return this;
         }
 
         @Override
         public List<Formule> CNF() {
-            return null;
+            return res;
         }
 
         @Override
         public List<Formule> ouSuppr() {
-            List<Formule> l = new ArrayList<>();
-            l.add(this);
-            return l;
+            ou.add(this);
+            return ou;
         }
 
         @Override
@@ -540,6 +564,7 @@ public abstract class Formule {
 
     /********************************* Méthodes de FORMULE ***************************************/
 
+    //Si on veut un affichage final avec les quantificateurs
     public Formule miseEnFormeSkolemisee(Formule f, HashMap<Terme.Variable, Terme> c, List<Terme.Variable> termesLibres, List<Proposition> propositions){
         Formule f1 = f;
         if(c==null && termesLibres.size()==0){
@@ -604,6 +629,11 @@ public abstract class Formule {
         return -1;
     }
 
+    public static void init(){
+        propositions = new ArrayList<>();
+        res = new ArrayList<>();
+    }
+
     /********************************* MAIN ***************************************/
 
     public static void main(String[] args) {
@@ -632,13 +662,6 @@ public abstract class Formule {
         System.out.println("Les clauses CNF de " + nonDel.toString()+" : ");
         for(Formule f : CNF){
             System.out.println("Clause : " + f.toString());
-        }
-
-        System.out.println();
-        for(Formule f : CNF){
-            List<Formule> clause = f.ouSuppr();
-            for (Formule c : clause)
-                System.out.println("Négation : " + c.getPropositionNegation(0).toString());
         }
 
     }

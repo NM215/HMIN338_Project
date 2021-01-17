@@ -23,16 +23,10 @@ public class Substitution {
 
         //Par exemple : [t1/x,t2/y] signifie qu'à x on associe t1 et à y on associe t2
         //Si j'appelle subst cette fonction, subst [t1/x,t2/y] f(x,y) rendra f(t1,t2) (où x et y ont été remplacés par t1 et t2).
-        //System.out.println();
-        //System.out.println("Avant substitution : ");
-        //System.out.println("A modifier : "+ terme.toString());
-
-        //System.out.println("Début substitution");
 
         for(Terme.Variable v : terme.getAllVariables()){ //On récupère toutes les variables du Terme à modifier
             for (Terme t : sub.keySet()) { //Pour chaque Terme (key du hashMap)
                 if(sub.get(t).equalsVariable(v)){ // Si la valeur de la clé (qui est une variable) = la variable du terme
-                    System.out.println("Substitution réalisée !");
                     v.setVariable(t.toString()); // On substitu
                     System.out.println();
                     System.out.println("Après substitution : ");
