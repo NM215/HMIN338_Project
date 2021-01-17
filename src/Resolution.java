@@ -134,16 +134,22 @@ public class Resolution {
         // S va donc être une liste de liste de Formule
         List<List<Formule>> S = listeClauses;
         List<List<Formule>> Sat = new ArrayList<>();
+
         List<Formule> C1 = new ArrayList<>();
 
+        System.out.println("S : "+listeClauses.toString());
+
         while (!S.isEmpty()){
+            //List<List<Formule>> STemp = S;
             for(List<Formule> C : S){
+                System.out.println("C : "+C.toString());
                 if(S.remove(C)==true){ //On a bien enlevé C on continue
                     if(C.isEmpty()){
                         return "insatisfiable";
                     }else if(Sat.contains(C)){
                         System.out.println("On passe à la clause suivante");
                     }else{
+                        //List<List<Formule>> STemp2 = S;
                         for(List<Formule> clause : S){
                             C1 = res(C, clause);
                             S.add(C1);
@@ -180,21 +186,27 @@ public class Resolution {
 
         List<Formule> clause1 = new ArrayList<>();
         clause1.add(new Formule.Proposition("P", new Terme[]{new Terme.Variable("X")}));
+        System.out.println("Clause1 : "+clause1.toString());
 
         List<Formule> clause2 = new ArrayList<>();
         clause2.add(new Formule.Non(new Formule.Proposition("P", new Terme[]{new Terme.Fonction('a')})));
         clause2.add(new Formule.Non(new Formule.Proposition("P", new Terme[]{new Terme.Fonction('b')})));
+        System.out.println("Clause2 : "+clause2.toString());
 
-        HashMap<Formule.Proposition, Boolean> res2 = getPropNeg(clause1);
-        System.out.println("HashMap PropNeg : "+res2.toString());
+        //HashMap<Formule.Proposition, Boolean> res2 = getPropNeg(clause1);
+        //System.out.println("HashMap PropNeg : "+res2.toString());
 
-        HashMap<Formule.Proposition, Boolean> res = getPropNeg(clause2);
-        System.out.println("HashMap PropNeg : "+res.toString());
+        //HashMap<Formule.Proposition, Boolean> res = getPropNeg(clause2);
+        //System.out.println("HashMap PropNeg : "+res.toString());
 
-        List<Formule> resolvant = res(clause1, clause2);
-        System.out.println("Resolvant : "+resolvant.toString());
+        //List<Formule> resolvant = res(clause1, clause2);
+        //System.out.println("Resolvant : "+resolvant.toString());
 
-
+        List<List<Formule>> listeClauses = new ArrayList<>();
+        listeClauses.add(clause1);
+        listeClauses.add(clause2);
+        System.out.println("listeClauses : "+listeClauses.toString());
+        System.out.println("Résolution : "+procedureDeResolution(listeClauses));
 
     }
 
