@@ -127,6 +127,37 @@ public class Resolution {
         return resolvant;
     }
 
+    public static String procedureDeResolution(List<List<Formule>> listeClauses){
+
+        // S étant une liste de clauses
+        // Et ayant décidé de définir une clause comme une liste de Formule
+        // S va donc être une liste de liste de Formule
+        List<List<Formule>> S = listeClauses;
+        List<List<Formule>> Sat = new ArrayList<>();
+        List<Formule> C1 = new ArrayList<>();
+
+        while (!S.isEmpty()){
+            for(List<Formule> C : S){
+                if(S.remove(C)==true){ //On a bien enlevé C on continue
+                    if(C.isEmpty()){
+                        return "insatisfiable";
+                    }else if(Sat.contains(C)){
+                        System.out.println("On passe à la clause suivante");
+                    }else{
+                        for(List<Formule> clause : S){
+                            C1 = res(C, clause);
+                            S.add(C1);
+                        }
+                        Sat.add(C);
+                    }
+                }else { // On a pas réussi à enlever C
+                    System.out.println("Problème avec S:=S\\{C};");
+                }
+            }
+        }
+        return "satisfiable";
+    }
+
     public static HashMap<Formule.Proposition, Boolean> getPropNeg(List<Formule> l){
         HashMap<Formule.Proposition, Boolean> res = new HashMap<>();
         for (Formule f : l){
@@ -162,6 +193,8 @@ public class Resolution {
 
         List<Formule> resolvant = res(clause1, clause2);
         System.out.println("Resolvant : "+resolvant.toString());
+
+
 
     }
 
