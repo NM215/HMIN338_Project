@@ -54,13 +54,13 @@ public class Main {
 
         //1-   ∃x.  P(x) => P(a) ∧ P(b)
         Formule F1 = new Formule.IlExiste(new Formule.Implique( new Formule.Proposition("P", new Terme[]{new Terme.Variable("x")}), new Formule.Et(new Formule.Proposition("P", new Terme[]{new Terme.Variable("a")}), new Formule.Proposition("P", new Terme[]{new Terme.Variable("b")}) )), new Terme.Variable("x"));
-        //List<Formule> CNF1 = skolemiser(F1);
-        //System.out.println("D'après la résolution la proposition est : "+resoudre(CNF1));
+        List<Formule> CNF1 = skolemiser(F1);
+        System.out.println("D'après la résolution la proposition est : "+resoudre(CNF1));
 
         //2-   ∀x.  P(x) => ∃y. P(y) v Q(y)
         Formule F2 = new Formule.PourTout(new Formule.Implique(new Formule.Proposition("P", new Terme[]{new Terme.Variable("x")}), new Formule.IlExiste(new Formule.Ou(new Formule.Proposition("P", new Terme[]{new Terme.Variable("y")}), new Formule.Proposition("Q", new Terme[]{new Terme.Variable("y")})), new Terme.Variable("y"))), new Terme.Variable("x"));
-        List<Formule> CNF2 = skolemiser(F2);
-        System.out.println("D'après la résolution la proposition est : "+resoudre(CNF2));
+        //List<Formule> CNF2 = skolemiser(F2);
+        //System.out.println("D'après la résolution la proposition est : "+resoudre(CNF2));
 
         //3-  (∃x.  P(x) v Q(x)) => (∃x. P(x)) v (∃x. Q(x))
         Formule F3 = new Formule.Implique( new Formule.IlExiste(new Formule.Ou(new Formule.Proposition("P", new Terme[]{new Terme.Variable("x")}), new Formule.Proposition("P", new Terme[]{new Terme.Variable("x")})),new Terme.Variable("x")) , new Formule.Ou( new Formule.IlExiste(new Formule.Proposition("Q", new Terme[]{new Terme.Variable("y")}), new Terme.Variable("y")), new Formule.IlExiste(new Formule.Proposition("Q", new Terme[]{new Terme.Variable("y")}), new Terme.Variable("y"))));

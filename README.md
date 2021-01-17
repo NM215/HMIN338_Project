@@ -30,5 +30,5 @@ celui vu en cours pour la logique propositionnelle (dans notre cas c'est la mét
 
 ### Main.java
 
-Programme principal avec exemple de résolution sur plusieurs propositions en reprennant les étapes précédentes.
+Programme principal avec exemple de résolution sur plusieurs propositions en reprennant les étapes précédentes. 7 exemples sont disponibles seul un exemple est décommenté pour pouvoir exécuter les exemples au fur et à mesure si besoin.
 

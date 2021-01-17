@@ -10,7 +10,7 @@ public class Resolution {
      * List<Formule> clause1 signifie que chaque formule
      * de l'ArrayList sont liés par un v
      * */
-    public static List<Formule> res(List<Formule> clause1, List<Formule> clause2){
+    public static List<Formule> res(List<Formule> clause1, List<Formule> clause2) throws Exception {
 
         List<Formule> resolvant = new ArrayList<>(); //resolvant de la résolution
 
@@ -109,6 +109,8 @@ public class Resolution {
                                     }
                                 }
 
+                            }else {
+                                throw new Exception("Unification failed");
                             }
 
                             // ... et on regroupe les deux clauses
@@ -140,6 +142,10 @@ public class Resolution {
 
         List<Formule> C1 = new ArrayList<>();
 
+        System.out.println();
+        System.out.println("------------------DEBUT ALGORITHME DE RESOLUTION-----------------------");
+        System.out.println();
+
         System.out.println("S : "+listeClauses.toString());
         System.out.println("Sat : "+Sat.toString());
 
@@ -148,6 +154,7 @@ public class Resolution {
             for(List<Formule> C : STemp){
                 System.out.println();
                 System.out.println("C : "+C.toString());
+                System.out.println();
                 if(S.remove(C)==true){ //On a bien enlevé C on continue
                     if(C.isEmpty()){
                         return "insatisfiable";
@@ -157,9 +164,13 @@ public class Resolution {
                         List<List<Formule>> STemp2 = copy(Sat);
                         for(List<Formule> clause : STemp2){
                             System.out.println();
-                            C1 = res(C, clause);
+                            System.out.println("Appel de la règle d'inférence de la résolution");
+                            try{
+                                C1 = res(C, clause);
+                            }catch (Exception e){
+                                System.out.println("Unification non trouvé : "+e.getMessage());
+                            }
                             System.out.println();
-                            //if(!C1.isEmpty())
                             S.add(C1);
                             System.out.println("S après ajout du résolvant : "+listeClauses.toString());
                         }

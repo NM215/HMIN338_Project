@@ -28,9 +28,8 @@ public class Substitution {
             for (Terme t : sub.keySet()) { //Pour chaque Terme (key du hashMap)
                 if(sub.get(t).equalsVariable(v)){ // Si la valeur de la clé (qui est une variable) = la variable du terme
                     v.setVariable(t.toString()); // On substitu
-                    System.out.println();
                     System.out.println("Après substitution : ");
-                    System.out.println("Une fois modifié : "+ terme.toString());
+                    System.out.println("Terme une fois modifié : "+ terme.toString());
                 }
             }
         }
