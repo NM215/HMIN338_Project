@@ -7,12 +7,14 @@ public abstract class Formule {
 
     public List<Terme.Variable> termeLibre = new ArrayList<>();
     public HashMap<Terme.Variable, Terme> condition;
-    public static List<Proposition> propositions = new ArrayList<>();
     public Formule miseEnForme;
+
+    public List<Formule> ou = new ArrayList<>();
+    public static List<Formule> res = new ArrayList<>();
+    public static List<Proposition> propositions = new ArrayList<>();
+
     //Liste de couple Proposition-Boolean pour savoir si une Proposition est précédé directement d'un Non
     public HashMap<Proposition, Boolean> propositionNegation = new HashMap<Proposition, Boolean>();
-    public static List<Formule> res = new ArrayList<>();
-    public List<Formule> ou = new ArrayList<>();
 
 
     //méthodes abstraites
@@ -65,8 +67,8 @@ public abstract class Formule {
             // On compte le nombre de non précédents :
             // If i = 1 ----> Il y'avait un NON avant ---> le et -> ou et iversement
             //  + A l'étape suivante :
-            //  si f1.nonDev(i+1) --> si le 2 est atteint ---> f1.nonDev(0)
-            //  Sinon on fait new Non(f1.nonDev(0))
+                //  si f1.nonDev(i+1) --> si le 2 est atteint ---> f1.nonDev(0)
+                //  Sinon on fait new Non(f1.nonDev(0))
         }
 
         @Override
@@ -112,7 +114,6 @@ public abstract class Formule {
             // Sinon on fait rentrer une contante : s(∀y ...)[cste/y]
             if(Libre()){
                 System.out.println("PourTout : termeLibre non vide");
-                //condition = new Condition(new Terme.Fonction('f', termeLibre), t);
                 condition = new HashMap<>();
                 Terme terme2 = new Terme.Fonction('f', termeLibre);
                 Terme.Variable v = t;
@@ -120,7 +121,6 @@ public abstract class Formule {
                 return f.herbrand();
             }else {
                 System.out.println("PourTout : termeLibre vide");
-                //condition = new Condition(new Terme.Fonction('f', termeLibre), t);
                 condition = new HashMap<>();
                 Terme terme2 = new Terme.Fonction('f', termeLibre);
                 Terme.Variable v = t;
@@ -189,7 +189,6 @@ public abstract class Formule {
             System.out.println("Skolémisation avec ∃");
             if(Libre()){
                 System.out.println("IlExiste : termeLibre non vide");
-                //condition = new Condition(new Terme.Fonction('f', termeLibre), t);
                 condition = new HashMap<>();
                 Terme terme2 = new Terme.Fonction('f', termeLibre);
                 Terme.Variable v = t;
@@ -197,7 +196,6 @@ public abstract class Formule {
                 return f.skolem();
             }else {
                 System.out.println("IlExiste : termeLibre vide");
-                //condition = new Condition(new Terme.Fonction('f', termeLibre), t);
                 condition = new HashMap<>();
                 Terme terme2 = new Terme.Fonction('f', termeLibre);
                 Terme.Variable v = t;
@@ -409,7 +407,6 @@ public abstract class Formule {
 
         public Formule skolem(){
             System.out.println("Skolémisation avec =>");
-            //miseEnForme = miseEnFormeSkolemisee(new Implique(f1.herbrand(), f2.skolem()),c,termesLibres);
             return new Implique(f1.herbrand(), f2.skolem());
         }
 
@@ -641,11 +638,11 @@ public abstract class Formule {
         // 1 - ∃x.P(x)=>P(a)∧P(b)
         Formule F1 = new IlExiste(new Implique( new Proposition("P", new Terme[]{new Terme.Variable("x")}), new Et(new Proposition("P", new Terme[]{new Terme.Variable("a")}), new Proposition("P", new Terme[]{new Terme.Variable("b")}) )), new Terme.Variable("x"));
         Formule F1Skolem = new Non(F1).skolem();
-        //Formule F1Skolem = F1.skolem();
+
         System.out.println();
         System.out.println("La formule initiale : "+F1.toString());
         System.out.println("La formule skolemisée : "+F1Skolem.toString());
-        //System.out.println("La condition de la formule : "+F1Skolem.condition.toString()); //null car il n'y a pas de condition dans ce cas
+
         Formule F1SkolemFinal = F1.miseEnFormeSkolemisee(F1Skolem, F1.condition, F1.termeLibre, F1Skolem.propositions);
         System.out.println("La formule skolemisée avec quantificateurs : "+ F1SkolemFinal.toString());
 
@@ -653,8 +650,6 @@ public abstract class Formule {
         System.out.println("Élimination du implique : " + impliqueDel.toString());
 
         Formule nonDel = impliqueDel.nonDev(0);
-        // A ou (B et C) --> new ou (A , new et (B,C)) ----> NullPointerException
-        //Formule nonDel = new Ou(new Proposition("P", new Terme[]{new Terme.Variable("x")}), new Et(new Proposition("P", new Terme[]{new Terme.Variable("a")}), new Proposition("P", new Terme[]{new Terme.Variable("b")})));
         System.out.println("Développement du non : " + nonDel.toString());
 
         List<Formule> CNF = nonDel.CNF();

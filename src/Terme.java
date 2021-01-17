@@ -9,7 +9,6 @@ public abstract class Terme {
     public abstract List<Variable> getAllVariables();
     public abstract String toString();
     public abstract boolean contains(Variable v);
-    //public abstract void setTerme();
 
     public abstract void setTerme(String terme);
 

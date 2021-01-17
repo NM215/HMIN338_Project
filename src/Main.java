@@ -8,11 +8,11 @@ public class Main {
         System.out.println();
         Formule.init();
         Formule F1Skolem = new Formule.Non(F1).skolem();
-        //Formule F1Skolem = F1.skolem();
+
         System.out.println();
         System.out.println("La formule initiale : "+F1.toString());
         System.out.println("La formule skolemisée : "+F1Skolem.toString());
-        //System.out.println("La condition de la formule : "+F1Skolem.condition.toString()); //null car il n'y a pas de condition dans ce cas
+
         Formule F1SkolemFinal = F1.miseEnFormeSkolemisee(F1Skolem, F1.condition, F1.termeLibre, F1Skolem.propositions);
         System.out.println("La formule skolemisée avec quantificateurs : "+ F1SkolemFinal.toString());
 
@@ -49,7 +49,7 @@ public class Main {
         return resolution;
     }
 
-        //Programme principal
+    //Programme principal
     public static void main(String[] args){
 
         //1-   ∃x.  P(x) => P(a) ∧ P(b)
