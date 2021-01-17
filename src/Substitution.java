@@ -22,7 +22,7 @@ public class Substitution {
     public static void substituer(HashMap<Terme, Terme.Variable> sub, Terme terme){
 
         //Par exemple : [t1/x,t2/y] signifie qu'à x on associe t1 et à y on associe t2
-        //Si j'appelle subst cette fonction, subst [t1/x,t2/y] f(x,y) rendra f(t1,t2) (où x et y ont été remplacés par t1 et t2).
+        //Si on appelle subst cette fonction, subst [t1/x,t2/y] f(x,y) rendra f(t1,t2) (où x et y ont été remplacés par t1 et t2).
 
         for(Terme.Variable v : terme.getAllVariables()){ //On récupère toutes les variables du Terme à modifier
             for (Terme t : sub.keySet()) { //Pour chaque Terme (key du hashMap)
@@ -79,14 +79,15 @@ public class Substitution {
         Terme terme2 = new Terme.Variable("y");
         Terme.Variable v = new Terme.Variable("x");
         substitution.put(terme2, v);
+        System.out.println("Substitution : "+substitution);
 
         char c = 'f';
         List<Terme.Variable> l = new ArrayList<>();
         l.add(new Terme.Variable("x"));
         Terme.Fonction f = new Terme.Fonction(c, l);
+        System.out.println("Fonction : "+f.toString());
 
         Substitution s = new Substitution(substitution);
-
         s.substituer(substitution, f);
 
     }
